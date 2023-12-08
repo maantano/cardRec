@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/card/static/css/main.cef0251c.css",
+    "main.js": "/card/static/js/main.b4e4ff7f.js",
+    "static/media/Shadow1.png": "/card/static/media/Shadow1.97c8b677f3a0f9d7768f.png",
+    "static/media/shinhan.png": "/card/static/media/shinhan.d85cd6dff04fca8acb50.png",
+    "static/media/hyundai.png": "/card/static/media/hyundai.80d14195a7212182e2c8.png",
+    "static/media/woori.png": "/card/static/media/woori.e4413d014f4b4f59c112.png",
+    "static/media/kb.png": "/card/static/media/kb.97b31c35c848211ffca9.png",
+    "static/media/tips_frameby_pc.png": "/card/static/media/tips_frameby_pc.ca62f543d0c9a391499d.png",
+    "static/media/woori.svg": "/card/static/media/woori.adf47be7dcda9fb2380b.svg",
+    "static/media/logo.svg": "/card/static/media/logo.f55fff6414d0344db89f2cd2de9f1073.svg",
+    "static/media/slick.svg": "/card/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/shinhan.svg": "/card/static/media/shinhan.e8db2e3bd6eb0d3a399c.svg",
+    "static/media/slick.eot": "/card/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/kbbank.svg": "/card/static/media/kbbank.799d419d722543bfd56e.svg",
+    "static/media/bc.svg": "/card/static/media/bc.5b36844e9ca3e40dfffb.svg",
+    "static/media/slick.ttf": "/card/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/card/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/ic_alert.svg": "/card/static/media/ic_alert.bc0b7ba60d98ea32f9b155d5fc5f8fa0.svg",
+    "static/media/hana.svg": "/card/static/media/hana.4b02215415b745d5f3ee.svg",
+    "static/media/keb.svg": "/card/static/media/keb.416731992d5342ee9602.svg",
+    "static/media/toss.svg": "/card/static/media/toss.8db9294646c07ea11a37.svg",
+    "static/media/kakao.svg": "/card/static/media/kakao.858ff79f191ee258742f.svg",
+    "static/media/hyundai.svg": "/card/static/media/hyundai.f7194a8b375487482372.svg",
+    "index.html": "/card/index.html",
+    "static/media/ic_search.svg": "/card/static/media/ic_search.92b77519c8ea8a37d0df63b0b643fd20.svg",
+    "static/media/nonghyup.svg": "/card/static/media/nonghyup.9ca1bab85f963f226ba0.svg",
+    "static/media/banksalad.svg": "/card/static/media/banksalad.8cfde25839b92f819ff1.svg",
+    "static/media/ic_new.svg": "/card/static/media/ic_new.715b41ecb28283e4f6675857db3d3884.svg",
+    "static/media/ic_arrow.svg": "/card/static/media/ic_arrow.991a6043d383666cb3d38c9d012ee8fc.svg",
+    "main.cef0251c.css.map": "/card/static/css/main.cef0251c.css.map",
+    "main.b4e4ff7f.js.map": "/card/static/js/main.b4e4ff7f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cef0251c.css",
+    "static/js/main.b4e4ff7f.js"
+  ]
+}

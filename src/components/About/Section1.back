@@ -1,0 +1,273 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import Check from "./\bCheck";
+import "./Cont1.css";
+import Axios from "axios";
+import { connect, useDispatch, useSelector } from "react-redux";
+
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+export const asyncUpFetch = createAsyncThunk(
+  "filter/asyncUpFetch",
+  async ({ item, cardTypeChk }) => {
+    // async ({ item, cardTypeChk }) => {
+    console.log("~~~~~~~filter/asyncUpFetch~~~~~~~~~~~=>");
+    console.log(item);
+    try {
+      const response = await Axios.get("/api/categoryCount", {
+        params: { item, cardTypeChk }, // 배열을 파라미터로 넘겨줍니다.
+      });
+      return response.data;
+    } catch (e) {
+      console.log("getCategoryCount2 ERROR 데이터를 받아올 수 없습니다.");
+      throw e;
+    }
+  }
+);
+
+const Section1 = ({ creditCount, debitCount, setExpand, category }) => {
+  const [res, setRes] = useState([]);
+  const dispatch = useDispatch();
+  const [checkedList, setCheckedList] = useState([]);
+  const prevCheckedList = usePrevious(checkedList);
+  const [cardTypeChk, setCardTypeChk] = useState("");
+  const [expandCon, setExpandCon] = useState(false);
+
+  const getcardBenefit = async () => {
+    try {
+      await Axios.get("/api/cardBenefit").then((response) => {
+        setRes(response.data);
+      });
+    } catch (e) {
+      console.log("getcardBenefit ERROR 데이터를 받아올 수 없습니다.");
+    }
+  };
+  useEffect(() => {
+    getcardBenefit();
+  }, []);
+
+  // 중요!!
+  // const filterList = useSelector((state) => state.filterReducer);
+  // const getCategoryCount2 = async () => {
+  //   try {
+  //     await Axios.get("/api/categoryCount", {
+  //       params: { filterList }, // 배열을 파라미터로 넘겨줍니다.
+  //     }).then((response) => {
+  //       // console.log(response);
+  //       // setRes(response.data);
+  //     });
+  //   } catch (e) {
+  //     console.log("getCategoryCount2 ERROR 데이터를 받아올 수 없습니다.");
+  //   }
+  // };
+
+  // API
+  // ------------------
+
+  const handleExpand = () => {
+    setExpandCon(() => !expandCon);
+  };
+  const setExpandChild = () => {
+    setExpand(!expandCon);
+  };
+
+  const onCheckedItem = useCallback(
+    (checked, item) => {
+      if (checked) {
+        setCheckedList((prev) => [...prev, item]);
+      } else if (!checked) {
+        setCheckedList(checkedList.filter((el) => el !== item));
+      }
+    },
+    [checkedList]
+  );
+
+  useEffect(() => {
+    console.log("-----------------------------------");
+    console.log("useEffect ====> [checkedList, prevCheckedList, cardTypeChk]");
+    if (prevCheckedList !== checkedList) {
+      console.log("checkedList 1 ==>", checkedList);
+      console.log("cardTypeChk ==>", cardTypeChk);
+      console.log("prevCheckedList ==>", prevCheckedList);
+      // dispatch(asyncUpFetch({ item: checkedList, cardTypeChk }));
+      dispatch(asyncUpFetch({ item: checkedList, cardTypeChk }));
+    }
+    console.log("checkedList 2 ==>", checkedList);
+  }, [checkedList, prevCheckedList, cardTypeChk]);
+
+  // useMemo(
+  //   (e) => {
+  //     console.log("~~~~~~~~~~~~~~~");
+  //     console.log(cardTypeChk);
+  //   },
+  //   [cardTypeChk]
+  // );
+
+  const checkOnlyOne = (e) => {
+    setCardTypeChk(e.target.id);
+    console.log("-----------------------------------");
+    console.log("checkOnlyOne ======>");
+    dispatch(asyncUpFetch({ item: checkedList, cardTypeChk }));
+    // dispatch(asyncUpFetch({ item: checkedList, cardTypeChk }));
+    let checkItem = document.getElementsByName("useType");
+    Array.prototype.forEach.call(checkItem, function (el) {
+      el.checked = false;
+    });
+    e.target.checked = true;
+    // setCardType(e.target.defaultValue);
+    return e;
+  };
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  return (
+    <>
+      <div className="part">
+        <div className="part_left" style={{ display: "block" }}>
+          <p className="txt">
+            카드종류 선택 <i>필수</i>
+          </p>
+          <ul className="btnGroup">
+            <li>
+              <input
+                type="checkbox"
+                id="credit"
+                name="useType"
+                value="credit"
+                onChange={(e) => checkOnlyOne(e)}
+                checked={cardTypeChk === "credit"}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="credit" onClick={creditCount}>
+                <a
+                  className={
+                    cardTypeChk === "credit"
+                      ? `btn btnLineBlue on`
+                      : "btn btnLineBlue"
+                  }
+                >
+                  <i>신용카드</i>
+                </a>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="debit"
+                name="useType"
+                value="debit"
+                onChange={(e) => checkOnlyOne(e)}
+                checked={cardTypeChk === "debit"}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="debit" onClick={debitCount}>
+                <a
+                  className={
+                    cardTypeChk === "debit"
+                      ? `btn btnLineBlue on`
+                      : "btn btnLineBlue"
+                  }
+                >
+                  <i>체크카드</i>
+                </a>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <section className={expandCon ? "" : "hiddenSection"}>
+        <div className="part last benefit">
+          <p className="txt">카드 혜택 선택</p>
+          {res.map((item) => {
+            return (
+              // <ContextFunc.Consumer>
+              <Check
+                key={item.id}
+                // name={item.name}
+                // cont={item.cont}
+
+                res={item}
+                onCheckedItem={onCheckedItem}
+              />
+              // </ContextFunc.Consumer>
+            );
+          })}
+        </div>
+      </section>
+      <a
+        data-v-2f748e5a=""
+        data-v-lstmore=""
+        className="cont1LstMore"
+        style={expandCon ? { display: "none" } : { display: "block" }}
+        onClick={() => {
+          handleExpand();
+          setExpandChild();
+        }}
+      >
+        콘텐츠 더보기
+      </a>
+      <div className="frameby">
+        <div className="card_ani slidein1">
+          <img
+            src="https://api.card-gorilla.com:8080/storage/corp/2/tips/27173/tips_slide1.png"
+            alt=""
+          />
+        </div>
+        <div className="card_ani slidein2">
+          <img
+            src="https://api.card-gorilla.com:8080/storage/corp/2/tips/27174/tips_slide2.png"
+            alt=""
+          />
+        </div>
+        <div className="card_ani slidein3">
+          <img
+            src="https://api.card-gorilla.com:8080/storage/corp/2/tips/27175/tips_slide3.png"
+            alt=""
+          />
+        </div>
+        <div className="card_ani slidein4">
+          <img
+            src="https://api.card-gorilla.com:8080/storage/corp/2/tips/27176/tips_slide4.png"
+            alt=""
+          />
+        </div>
+        <div className="card_ani slidein5">
+          <img
+            src="https://api.card-gorilla.com:8080/storage/corp/2/tips/27177/tips_slide5.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+const mapStateToProps = (state, props) => {
+  // console.log("혹시?????");
+  // console.log(state.reducer);
+  // console.log(props);
+  // console.log(state);
+  return {
+    state,
+  };
+  // return {
+  //   category: state.reducer,
+  //   // category: state.rootReducer1.category,
+  // };
+};
+const mapDispatchToProps = {};
+
+// export default Section1;
+export default connect(mapStateToProps)(Section1);
