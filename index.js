@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.port || 88;
+const PORT = process.env.port || 8080;
 const csv = require("csv-parser");
 const fs = require("fs");
 // cors ???
@@ -11,26 +11,27 @@ let corsOptions = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+app.listen(PORT, "0.0.0.0");
 
 // DB 연결
-// const mysql = require("mysql");
-// const db = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   password: "alsruddjs5",
-//   database: "card",
-//   port: 3306,
-// });
+const mysql = require("mysql");
+const db = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "alsruddjs5",
+  database: "card",
+  port: 3306,
+});
 
-require("dotenv").config();
+// require("dotenv").config();
 
-const mysql = require("mysql2");
+// const mysql = require("mysql2");
 // usename = 45h7e3wri5en8rg1kmec
 // ps = pscale_pw_5IuUsszkxs5oTcLM3ZocfzUrcRHUOZfHfckFfiiprA3
 // DATABASE_URL='mysql://45h7e3wri5en8rg1kmec:pscale_pw_5IuUsszkxs5oTcLM3ZocfzUrcRHUOZfHfckFfiiprA3@aws.connect.psdb.cloud/carddb?ssl={"rejectUnauthorized":true}'
 
 // Create the connection to the database
-const db = mysql.createConnection(process.env.DATABASE_URL);
+// const db = mysql.createConnection(process.env.DATABASE_URL);
 
 // simple query
 // connection.query("show tables", function (err, results, fields) {

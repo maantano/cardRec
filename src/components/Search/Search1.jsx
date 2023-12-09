@@ -152,9 +152,6 @@ const Search1 = () => {
 
   const searchAync = async () => {
     try {
-      console.log("checkBenefitList ===>", checkBenefitList);
-      console.log("top3Benefit ===>", top3Benefit);
-
       const searchData = await dispatch(
         asyncSearchFetch({
           amount,
